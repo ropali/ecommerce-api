@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.config import settings
+
 app = FastAPI(
-    title="Ecommerce API",
+    title=settings.PROJECT_NAME,
     description="REST API for Ecommerce Platform",
     version="1.0.0",
 )
@@ -10,7 +12,7 @@ app = FastAPI(
 # CORS middleware configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # TODO: In production, replace with specific origins
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
