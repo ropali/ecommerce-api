@@ -14,3 +14,6 @@ class Product(BaseModel):
     description = Column(String, nullable=True)
     price = Column(Float, nullable=False)
     stock = Column(Integer, nullable=False, default=0)
+
+    def __str__(self):
+        return f"{self.name} - {self.price} - {self.stock}"

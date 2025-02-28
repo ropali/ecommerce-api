@@ -1,3 +1,4 @@
+import copy
 from typing import Any, Dict, List
 
 from fastapi import Response, status
@@ -19,6 +20,10 @@ def create_order(client: Any, sample_products: List[Product]) -> Response:
 def test_create_order(client: Any, test_db, sample_products: List[Any]) -> None:
     """Test creating a new order with valid data."""
 
+    sample_products_copy = copy.deepcopy(
+        sample_products
+    )  # Copy the sample products to compare stock levels later
+
     response = create_order(client, sample_products)
     assert response.status_code == status.HTTP_201_CREATED
 
@@ -31,19 +36,19 @@ def test_create_order(client: Any, test_db, sample_products: List[Any]) -> None:
     expected_total: float = sample_products[0].price * 2 + sample_products[1].price * 1
     assert created_order["total_price"] == expected_total
 
-    for product in sample_products:
-
-        expected_stock: int = (
-            product.stock
+    # Check that the stock levels have been updated correctly
+    # for only two products as the order contains only two products
+    for product in sample_products_copy[:2]:
+        db_product = test_db.query(Product).get(product.id)
+        assert (
+            db_product.stock
+            == product.stock
             - next(
                 item
                 for item in created_order["items"]
                 if item["product_id"] == product.id
             )["quantity"]
         )
-
-        test_db.refresh(product)
-        assert product.stock == expected_stock
 
 
 def test_create_order_insufficient_stock(
