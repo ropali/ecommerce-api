@@ -122,7 +122,7 @@ def test_get_product(client: TestClient, sample_products: List[Dict]) -> None:
 
     product = response.json()
     assert product["id"] == product_id
-    assert product["name"] == sample_products[0]["name"]
+    assert product["name"] == sample_products[0].name
 
 
 def test_get_product_not_found(client: TestClient) -> None:
@@ -149,8 +149,8 @@ def test_update_product(client: TestClient, sample_products: List[Dict]) -> None
     assert updated_product["id"] == product_id
     assert updated_product["name"] == update_data["name"]
     assert updated_product["price"] == update_data["price"]
-    assert updated_product["description"] == sample_products[0]["description"]
-    assert updated_product["stock"] == sample_products[0]["stock"]
+    assert updated_product["description"] == sample_products[0].description
+    assert updated_product["stock"] == sample_products[0].stock
 
 
 def test_update_product_not_found(client: TestClient) -> None:
