@@ -31,8 +31,8 @@ class _Settings(BaseSettings):
     @property
     def db_url(self) -> str:
         return (
-            f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@"
-            f"{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+            f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
+            f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
 
     class Config:
