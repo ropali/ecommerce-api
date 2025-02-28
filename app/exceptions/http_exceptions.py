@@ -36,20 +36,6 @@ class ProductNotFoundException(HTTPException):
         super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
 
 
-class OrderNotFoundException(HTTPException):
-    """
-    Exception raised when an order is not found in the database.
-    This occurs when trying to access an order with an ID that doesn't exist.
-    """
-
-    def __init__(self, order_id: int):
-        self.order_id = order_id
-
-        detail = f"Order with ID {order_id} not found"
-
-        super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
-
-
 class InvalidOrderDataException(HTTPException):
     """
     Exception raised when order data is invalid.
