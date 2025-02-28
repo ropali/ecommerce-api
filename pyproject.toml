@@ -1,7 +1,7 @@
 [project]
 name = "ecommerce-api"
 version = "0.1.0"
-description = "Add your description here"
+description = "A production-ready ecommerce RESTful APIs."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -17,4 +17,11 @@ dependencies = [
 dev = [
     "pre-commit>=4.1.0",
     "pytest>=8.3.4",
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+    "ignore::UserWarning"
 ]
