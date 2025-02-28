@@ -87,26 +87,6 @@ def update_product(db: Session, product_id: int, product: ProductUpdate) -> Prod
     return db_product
 
 
-def delete_product(db: Session, product_id: int) -> Product:
-    """
-    Delete a product.
-
-    Args:
-        db: Database session
-        product_id: ID of the product to delete
-
-    Returns:
-        The deleted Product object
-
-    Raises:
-        ProductNotFoundException: If product with given ID doesn't exist
-    """
-    db_product = get_product(db, product_id)
-    db.delete(db_product)
-    db.commit()
-    return db_product
-
-
 def update_product_stock(db: Session, product_id: int, quantity_change: int) -> Product:
     """
     Update the stock of a product by a given amount (positive or negative).

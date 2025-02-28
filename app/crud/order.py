@@ -4,11 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.crud.product import get_product, update_product_stock
-from app.exceptions.http_exceptions import (
-    InsufficientStockException,
-    InvalidOrderDataException,
-    OrderNotFoundException,
-)
+from app.exceptions.http_exceptions import InsufficientStockException, InvalidOrderDataException
 from app.models.order import Order, OrderItem, OrderStatus
 from app.schemas.order import OrderCreate
 
@@ -26,26 +22,6 @@ def get_orders(db: Session, skip: int = 0, limit: int = 100) -> List[Order]:
         List of Order objects
     """
     return db.query(Order).offset(skip).limit(limit).all()
-
-
-def get_order(db: Session, order_id: int) -> Order:
-    """
-    Retrieve a single order by ID.
-
-    Args:
-        db: Database session
-        order_id: ID of the order to retrieve
-
-    Returns:
-        Order object if found
-
-    Raises:
-        OrderNotFoundException: If order with given ID doesn't exist
-    """
-    order = db.query(Order).filter(Order.id == order_id).first()
-    if order is None:
-        raise OrderNotFoundException(order_id=order_id)
-    return order
 
 
 def create_order(db: Session, order: OrderCreate) -> Order:
