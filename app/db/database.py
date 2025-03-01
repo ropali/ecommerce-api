@@ -7,13 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from app.config import settings
 
 # Create SQLAlchemy engine with the database URL from settings
-engine = create_engine(
-    settings.db_url,
-    # For PostgreSQL in production:
-    # connect_args={"connect_timeout": 10},
-    # pool_pre_ping=True,
-    # pool_recycle=300,
-)
+engine = create_engine(settings.db_url)
 
 # Create SessionLocal class with sessionmaker
 # This will be used to create database sessions

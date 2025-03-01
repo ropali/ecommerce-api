@@ -63,9 +63,7 @@ def create_order(db: Session, order: OrderCreate) -> Order:
         # Store product data for later
         product_data.append((product, item.quantity, product.price))
 
-    # Start a transaction
     try:
-
         # Create order
         db_order = Order(total_price=total_price, status=OrderStatus.PENDING.value)
         db.add(db_order)
