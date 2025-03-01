@@ -40,30 +40,31 @@ def create_order(db: Session, order: OrderCreate) -> Order:
         InsufficientStockException: If any product doesn't have enough stock
         InvalidOrderDataException: If order data is invalid
     """
+    # Validate products and stock availability
+    product_data = []
+    total_price = 0.0
+
+    # Check each product in the order
+    for item in order.items:
+        product = get_product(db, item.product_id)
+
+        # Check if there's enough stock
+        if product.stock < item.quantity:
+            raise InsufficientStockException(
+                product_id=product.id,
+                requested_quantity=item.quantity,
+                available_quantity=product.stock,
+            )
+
+        # Calculate price for this line item
+        item_price = product.price * item.quantity
+        total_price += item_price
+
+        # Store product data for later
+        product_data.append((product, item.quantity, product.price))
+
     # Start a transaction
     try:
-        # Validate products and stock availability
-        product_data = []
-        total_price = 0.0
-
-        # Check each product in the order
-        for item in order.items:
-            product = get_product(db, item.product_id)
-
-            # Check if there's enough stock
-            if product.stock < item.quantity:
-                raise InsufficientStockException(
-                    product_id=product.id,
-                    requested_quantity=item.quantity,
-                    available_quantity=product.stock,
-                )
-
-            # Calculate price for this line item
-            item_price = product.price * item.quantity
-            total_price += item_price
-
-            # Store product data for later
-            product_data.append((product, item.quantity, product.price))
 
         # Create order
         db_order = Order(total_price=total_price, status=OrderStatus.PENDING.value)
