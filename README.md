@@ -79,7 +79,6 @@ project-root/
 ├── sample.env               # Sample file for .env
 ├── Dockerfile               # Docker configuration for the app
 ├── docker-compose.yml       # Docker Compose configuration
-├── requirements.txt         # Project dependencies
 └── README.md                # Project documentation
 
 ```
